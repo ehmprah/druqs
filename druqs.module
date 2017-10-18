@@ -96,6 +96,37 @@ function druqs_druqs_search($args) {
     }
   }
 
+  // Search for menus
+  foreach ($sources as $source) {
+    if (substr($source, 0, 5) == 'menu_') {
+      $menu_tree = \Drupal::menuTree();
+      // Get menu name
+      $menu_name = substr($source, 5);
+      // Load the tree without any params
+      $tree = $menu_tree->load($menu_name, new \Drupal\Core\Menu\MenuTreeParameters);
+      // Transform the tree
+      $manipulators = array(
+        // Only show links that are accessible for the current user.
+        array('callable' => 'menu.default_tree_manipulators:checkAccess'),
+        // Flatten the treen for easier searchability
+        array('callable' => 'menu.default_tree_manipulators:flatten'),
+      );
+      $tree = $menu_tree->transform($tree, $manipulators);
+      // Loop over items
+      foreach ($tree as $item) {
+        if (stripos($item->link->getTitle(), $args['input']) !== FALSE) {
+          $items[] = array(
+            'type' => 'Menu (' . Html::escape($menu_name) . ')',
+            'title' => Html::escape($item->link->getTitle()),
+            'actions' => array(
+              'goto' => $item->link->getUrlObject()->toString(),
+            )
+          );
+        }
+      }
+    }
+  }
+
   return $items;
 }
 
@@ -172,6 +203,7 @@ function druqs_toolbar() {
         '#type' => 'search',
         '#attributes' => array(
           'id' => 'druqs-input',
+          'placeholder' => t('Quick search'),
         ),
         '#suffix' => '<div id="druqs-results"></div>',
       ),

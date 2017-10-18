@@ -6,6 +6,8 @@ use Drupal\Core\Controller\ControllerBase;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Drupal\Core\Config\ConfigFactoryInterface;
 use Symfony\Component\HttpFoundation\Request;
+use Drupal\Component\Utility\Html;
+use Drupal\Component\Utility\UrlHelper;
 
 /**
  * Provides route responses for druqs.module.
@@ -37,18 +39,23 @@ class DruqsController extends ControllerBase {
     // Invoke hook_druqs_search to allow modules to add their results
     $output = array();
     if ($results = $this->moduleHandler()->invokeAll('druqs_search', array(&$args))) {
-      $output += $results;
+      foreach ($results as $result) {
+        // Format and escape the actions
+        $actions = array();
+        foreach ($result['actions'] as $title => $uri) {
+          $actions[Html::escape($title)] = UrlHelper::stripDangerousProtocols($uri);
+        }
+        // Add formatted and escaped output
+        $output[] = array(
+          'type' => Html::escape($result['type']),
+          'title' => Html::escape($result['title']),
+          'actions' => $actions
+        );
+      }
     }
 
     // Return these results
     return new JsonResponse($output);
-  }
-
-  /**
-   * Page callback for the simple home page
-   */
-  public function home() {
-    return array();
   }
 
 }

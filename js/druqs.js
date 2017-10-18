@@ -23,6 +23,9 @@
       // Attach code check handlers
       $('#druqs-input').keyup(function(){
 
+        // We only continue with actual input
+        if (!$('#druqs-input').val().length) return;
+
         results = false;
 
         // Hide results while we're typing
@@ -83,7 +86,7 @@
           }
         }
       };
-      ajax.open("POST", '/admin/druqs/search?query=' + encodeURIComponent(search), true);
+      ajax.open("POST", '/admin/druqs/search', true);
       ajax.setRequestHeader(
         "Content-type",
         "application/x-www-form-urlencoded"
@@ -95,10 +98,10 @@
   /**
    * Helper function to decorate the druqs results
    */
-  function decorate(data) {
-    html = '';
-    if (data.length) {
-      var results = JSON.parse(data), r, action;
+  function decorate(data) {console.log(data);
+    var html = '', results = JSON.parse(data);
+    if (results.length) {
+      var r, action;
       for (r = 0; r < results.length; r++) {
         html += '<div class="druqs-result">';
         html += '<div class="druqs-result-content">';
