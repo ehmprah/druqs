@@ -5,7 +5,7 @@ namespace Drupal\druqs\Plugin\Block;
 use Drupal\Core\Block\BlockBase;
 
 /**
- * Provides the druqs search field as a block
+ * Provides the druqs search field as a block.
  *
  * @Block(
  *   id = "druqs",

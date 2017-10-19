@@ -6,6 +6,7 @@
  *
  * TODO add proper search form for non-javascript users as well?
  */
+
 use Drupal\Core\Cache\Cache;
 use Drupal\Core\Url;
 use Drupal\Core\Routing\RouteMatchInterface;
@@ -37,7 +38,7 @@ function druqs_druqs_search($args) {
           'actions' => [
             'view' => '/node/' . $record->nid,
             'edit' => '/node/' . $record->nid . '/edit',
-          ]
+          ],
         ];
         // Increment the result counter.
         $args['results_current']++;
@@ -54,7 +55,7 @@ function druqs_druqs_search($args) {
       $q = \Drupal::database()->select('users_field_data', 'u');
       $q->fields('u', ['uid', 'name']);
       $q->condition('u.name', '%' . $q->escapeLike($args['input']) . '%', 'LIKE');
-      // And format the results
+      // And format the results.
       foreach ($q->range(0, $limit)->execute() as $record) {
         $items[] = [
           'type' => 'User',
@@ -62,9 +63,9 @@ function druqs_druqs_search($args) {
           'actions' => [
             'view' => '/user/' . $record->uid,
             'edit' => '/user/' . $record->uid . '/edit',
-          ]
+          ],
         ];
-        // Increment the result counter
+        // Increment the result counter.
         $args['results_current']++;
       }
     }
@@ -87,7 +88,7 @@ function druqs_druqs_search($args) {
           'actions' => [
             'view' => '/taxonomy/term/' . $record->tid,
             'edit' => '/taxonomy/term/' . $record->tid . '/edit',
-          ]
+          ],
         ];
         // Increment the result counter.
         $args['results_current']++;
@@ -174,11 +175,11 @@ function druqs_page_attachments(array &$attachments) {
  * Implements hook_hook_info().
  */
 function druqs_hook_info() {
-  return array(
+  return [
     'druqs_search' => [
       'group' => 'druqs',
     ],
-  );
+  ];
 }
 
 /**

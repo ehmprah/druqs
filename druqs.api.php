@@ -20,7 +20,7 @@
  *     'results_per_source': the maximum amount of results per source
  *     'results_max': the total amount of results
  *
- * @return $results
+ * @return results
  *   An array of arrays with the following keys:
  *     'type': the type of result
  *     'title': the result title
@@ -42,14 +42,14 @@ function hook_druqs_search(array &$args) {
 
     // And format the results.
     foreach ($q->range(0, $limit)->execute() as $record) {
-      $results[] = array(
+      $results[] = [
         'type' => 'Content (' . $record->type . ')',
         'title' => $record->title,
-        'actions' => array(
+        'actions' => [
           'view' => '/node/' . $record->nid,
           'edit' => '/node/' . $record->nid . '/edit',
-        )
-      );
+        ],
+      ];
 
       // Increment the result counter.
       $args['results_current']++;

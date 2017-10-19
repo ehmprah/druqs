@@ -4,7 +4,6 @@ namespace Drupal\druqs\Controller;
 
 use Drupal\Core\Controller\ControllerBase;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use Drupal\Core\Config\ConfigFactoryInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Drupal\Component\Utility\Html;
 use Drupal\Component\Utility\UrlHelper;
@@ -41,16 +40,16 @@ class DruqsController extends ControllerBase {
     if ($results = $this->moduleHandler()->invokeAll('druqs_search', array(&$args))) {
       foreach ($results as $result) {
         // Format and escape the actions.
-        $actions = array();
+        $actions = [];
         foreach ($result['actions'] as $title => $uri) {
           $actions[Html::escape($title)] = UrlHelper::stripDangerousProtocols($uri);
         }
         // Add formatted and escaped output.
-        $output[] = array(
+        $output[] = [
           'type' => Html::escape($result['type']),
           'title' => Html::escape($result['title']),
-          'actions' => $actions
-        );
+          'actions' => $actions,
+        ];
       }
     }
 

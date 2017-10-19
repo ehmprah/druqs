@@ -5,9 +5,12 @@
  * TODO remove jQuery dependency?
  */
 
+'use strict'
+
 (function ($, Drupal) {
 
-  var scheduled, results;
+  var scheduled;
+  var results;
 
   /**
    * Decorate the druqs element
@@ -16,14 +19,18 @@
     attach: function (context, settings) {
 
       // Only fire this once.
-      if (this.processed) return;
+      if (this.processed) {
+        return;
+      }
       this.processed = true;
 
       // Attach code check handlers
-      $('#druqs-input').keyup(function(){
+      $('#druqs-input').keyup(function (){
 
         // We only continue with actual input
-        if (!$('#druqs-input').val().length) return;
+        if (!$('#druqs-input').val().length) {
+          return;
+        }
 
         results = false;
 
@@ -34,27 +41,27 @@
         clearTimeout(scheduled);
 
         // Schedule a new request in 200ms
-        scheduled = setTimeout(function() {
+        scheduled = setTimeout(function () {
           request();
         }, 200);
       });
 
       // Submitting the form will automatically clear the automatic query
       // schedule and will trigger an immediate query
-      $('#druqs').submit(function(){
+      $('#druqs').submit(function (){
         clearTimeout(scheduled);
         request();
         return false;
       });
 
       // Clicks outside the results hide them
-      $('body').click(function(){
+      $('body').click(function (){
         $('#druqs-results').removeClass('active');
       });
 
       // On focusing the input again, we show the results we have, so people can
       // get back to the results once they've clicked outside of them
-      $('#druqs-input').click(function(e){
+      $('#druqs-input').click(function (e){
         if (results) {
           $('#druqs-results').addClass('active');
           e.stopPropagation();
@@ -78,17 +85,17 @@
       results.classList.add('active');
       // Send ajax request
       var ajax = new XMLHttpRequest();
-      ajax.onreadystatechange = function() {
-        if (ajax.readyState == XMLHttpRequest.DONE) {
-          if (ajax.status == 200) {
+      ajax.onreadystatechange = function () {
+        if (ajax.readyState === XMLHttpRequest.DONE) {
+          if (ajax.status === 200) {
             decorate(ajax.response);
           }
         }
       };
-      ajax.open("POST", '/admin/druqs/search', true);
+      ajax.open('POST', '/admin/druqs/search', true);
       ajax.setRequestHeader(
-        "Content-type",
-        "application/x-www-form-urlencoded"
+        'Content-type',
+        'application/x-www-form-urlencoded'
       );
       ajax.send('query=' + encodeURIComponent(search));
     }
