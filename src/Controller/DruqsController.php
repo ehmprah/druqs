@@ -16,11 +16,15 @@ use Drupal\Component\Utility\UrlHelper;
 class DruqsController extends ControllerBase {
 
   /**
+   * Config.
+   *
    * @var \Drupal\Core\Config\ImmutableConfig
    */
   protected $config;
-  
+
   /**
+   * Request.
+   *
    * @var Symfony\Component\HttpFoundation\RequestStack
    */
   private $requestStack;
@@ -28,6 +32,7 @@ class DruqsController extends ControllerBase {
   /**
    * Constructor.
    *
+   * @param Drupal\Core\Config\ConfigFactoryInterface $config_factory
    * @param Symfony\Component\HttpFoundation\RequestStack $request_stack
    */
   public function __construct(ConfigFactoryInterface $config_factory, RequestStack $request_stack) {
