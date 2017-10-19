@@ -4,8 +4,7 @@
  * @file
  * Druqs primary module file.
  *
- * TODO add menu item search!
- * TODO add simple extra commands like "run cron", "clear cache"?
+ * TODO add proper search form for non-javascript users as well?
  */
 use Drupal\Core\Cache\Cache;
 use Drupal\Core\Url;
@@ -137,19 +136,17 @@ function druqs_help($route_name, RouteMatchInterface $route_match) {
   switch ($route_name) {
     case 'help.page.druqs':
       $output = '<h3>' . t('About') . '</h3>';
-      $output .= '<p>' . t('The druqs module offers an omnipresent search for content and more via the toolbar or a block. By default, it searches nodes and taxonomies, but can easily be extended with a built-in hook.') . '</p>';
+      $output .= '<p>' . t('The druqs module offers quick search for content and more via the toolbar or a block. By default, it searches users, nodes and taxonomies, but can easily be extended with a built-in hook.') . '</p>';
       $output .= '<h3>' . t('Uses') . '</h3>';
       $output .= '<dl>';
       $output .= '<dt>' . t('Search box placement') . '</dt>';
-      $output .= '<dd>' . t('By default, the search box is added to the toolbar. Another option is using one of the blocks which ships with the module.') . '</dd>';
-      $output .= '<dt>' . t('Search for content') . '</dt>';
-      $output .= '<dd>' . t('Start typing in the druqs box to search for nodes by title.') . '</dd>';
-      $output .= '<dt>' . t('Search for users') . '</dt>';
-      $output .= '<dd>' . t('Start typing in the druqs box to search for users by name.') . '</dd>';
-      $output .= '<dt>' . t('Search for taxonomy terms') . '</dt>';
-      $output .= '<dd>' . t('Start typing in the druqs box to search for taxonomy terms by name.') . '</dd>';
+      $output .= '<dd>' . t('By default, the search box is added to the toolbar. Another option is using the block which ships with the module.') . '</dd>';
       $output .= '<dt>' . t('Configuring the module') . '</dt>';
       $output .= '<dd>' . t('You can select which type of content will be searched on <a href=":admin-druqs">the druqs configuration page</a>.', array(':admin-druqs' => Url::fromRoute('druqs.configuration')->toString())) . '</dd>';
+      $output .= '<dt>' . t('Search for anything') . '</dt>';
+      $output .= '<dd>' . t('Start typing in the druqs box to search for users, nodes, taxonomies, menus and more!') . '</dd>';
+      $output .= '<dt>' . t('Keyboard Shortcut') . '</dt>';
+      $output .= '<dd>' . t('Press ALT+S to automatically clear and focus the quick search field.') . '</dd>';
       $output .= '<dt>' . t('Permissions') . '</dt>';
       $output .= '<dd>' . t('Users with the <em>Administer druqs</em> permission can configure the module, users with the <em>Access druqs</em> permission can use the druqs.') . '</dd>';
       $output .= '</dl>';
@@ -194,7 +191,6 @@ function druqs_toolbar() {
     ],
   ];
 
-  // TODO replace the input by a proper drupal form to allow searching without js
   if (\Drupal::currentUser()->hasPermission('access druqs')) {
     $items['druqs'] += [
       '#weight' => -999,

@@ -2,6 +2,20 @@
  * @file
  * Stylesheet for the Druqs module.
  */
+#block-druqs {
+  position: relative;
+}
+
+#block-druqs #druqs-input {
+  margin: 0;
+  width: 100%;
+  max-width: none;
+}
+
+#block-druqs #druqs-results {
+  width: 100%;
+}
+
 .druqs-tab .js-form-item {
   margin: 0;
 }
@@ -26,8 +40,6 @@
   background: #fff;
 }
 
-
-
 form#druqs .input-wrap {
   border:none;
 }
@@ -42,7 +54,7 @@ form#druqs .input-wrap {
   width: 40vw;
   min-width: 300px;
   max-width: 600px;
-  min-height: 50px;
+  min-height: 100px;
   max-height: 80vh;
   z-index: 999;
   overflow-y: auto;
@@ -103,6 +115,7 @@ form#druqs .input-wrap {
   margin: auto;
   text-decoration: underline;
   transition: all .4s;
+  border: none;
 }
 
 .druqs-result-actions a:hover {

@@ -8,4 +8,3 @@ drupal.druqs:
   dependencies:
     - core/jquery
     - core/drupal
-    - core/drupalSettings

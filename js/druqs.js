@@ -2,11 +2,10 @@
  * @file
  * JavaScript file for the Druqs module.
  *
- * TODO remove jQuery dependency
- * TODO finetune the keyup handler, that should depend on the input (e.g. arrow keys!)
+ * TODO remove jQuery dependency?
  */
 
-(function ($, Drupal, drupalSettings) {
+(function ($, Drupal) {
 
   var scheduled, results;
 
@@ -98,7 +97,7 @@
   /**
    * Helper function to decorate the druqs results
    */
-  function decorate(data) {console.log(data);
+  function decorate(data) {
     var html = '', results = JSON.parse(data);
     if (results.length) {
       var r, action;
@@ -135,4 +134,4 @@
     }
   });
 
-})(jQuery, Drupal, drupalSettings);
+})(jQuery, Drupal);
