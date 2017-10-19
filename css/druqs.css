@@ -41,7 +41,7 @@
 }
 
 form#druqs .input-wrap {
-  border:none;
+  border: none;
 }
 
 #druqs-results {
@@ -63,14 +63,14 @@ form#druqs .input-wrap {
 #druqs-results.active {
   visibility: visible;
   opacity: 1;
-  transition-delay:0s;
+  transition-delay: 0s;
 }
 
 #druqs-results .nope {
   color: #dbdbdb;
   position: absolute;
-  top:50%;
-  left:50%;
+  top: 50%;
+  left: 50%;
   transform: translate(-50%, -50%);
   white-space: nowrap;
 }
@@ -104,7 +104,7 @@ form#druqs .input-wrap {
 }
 
 .druqs-result-actions {
-  display:flex;
+  display: flex;
   justify-content: flex-end;
   margin-left: 1em;
 }

@@ -11,7 +11,7 @@
  */
 
 /**
- * Add search results to a given omnibox search string
+ * Add search results to a given omnibox search string.
  *
  * @param $args
  *   An associate array with the following keys:
@@ -32,15 +32,15 @@ function hook_druqs_search(array &$args) {
 
   if ($args['results_current'] < $args['results_max']) {
 
-    // Determine how many results we can still add
+    // Determine how many results we can still add.
     $limit = min($args['results_per_source'], $args['results_max'] - $args['results_current']);
 
-    // Create query for node titles
+    // Create query for node titles.
     $q = \Drupal::database()->select('node_field_data', 'n');
     $q->fields('n', ['nid', 'title', 'type']);
     $q->condition('n.title', '%' . $q->escapeLike($args['input']) . '%', 'LIKE');
 
-    // And format the results
+    // And format the results.
     foreach ($q->range(0, $limit)->execute() as $record) {
       $results[] = array(
         'type' => 'Content (' . $record->type . ')',
@@ -51,7 +51,7 @@ function hook_druqs_search(array &$args) {
         )
       );
 
-      // Increment the result counter
+      // Increment the result counter.
       $args['results_current']++;
     }
   }

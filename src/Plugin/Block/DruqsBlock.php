@@ -19,19 +19,19 @@ class DruqsBlock extends BlockBase {
    * {@inheritdoc}
    */
   public function build() {
-    $build = array();
+    $build = [];
 
     $user = \Drupal::currentUser();
     if ($user->hasPermission('access druqs')) {
       $build = [
-        'tab' => array(
+        'tab' => [
           '#type' => 'search',
-          '#attributes' => array(
+          '#attributes' => [
             'id' => 'druqs-input',
             'placeholder' => t('Quick search'),
-          ),
+          ],
           '#suffix' => '<div id="druqs-results"></div>',
-        ),
+        ],
         '#wrapper_attributes' => [
           'class' => ['druqs-tab'],
         ],

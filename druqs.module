@@ -15,112 +15,112 @@ use Drupal\Component\Utility\Html;
  * Implements hook_druqs_search().
  */
 function druqs_druqs_search($args) {
-  $items = array();
+  $items = [];
 
-  // Get the module config
+  // Get the module config.
   $sources = \Drupal::config('druqs.configuration')->get('search_sources');
 
-  // Search for content
+  // Search for content.
   if (in_array('node', $sources)) {
     if ($args['results_current'] < $args['results_max']) {
-      // Determine how many results we can still add
+      // Determine how many results we can still add.
       $limit = min($args['results_per_source'], $args['results_max'] - $args['results_current']);
-      // Create query for node titles
+      // Create query for node titles.
       $q = \Drupal::database()->select('node_field_data', 'n');
       $q->fields('n', ['nid', 'title', 'type']);
       $q->condition('n.title', '%' . $q->escapeLike($args['input']) . '%', 'LIKE');
-      // And format the results
+      // And format the results.
       foreach ($q->range(0, $limit)->execute() as $record) {
-        $items[] = array(
+        $items[] = [
           'type' => 'Content (' . Html::escape($record->type) . ')',
           'title' => Html::escape($record->title),
-          'actions' => array(
+          'actions' => [
             'view' => '/node/' . $record->nid,
             'edit' => '/node/' . $record->nid . '/edit',
-          )
-        );
-        // Increment the result counter
+          ]
+        ];
+        // Increment the result counter.
         $args['results_current']++;
       }
     }
   }
 
-  // Search for users
+  // Search for users.
   if (in_array('user', $sources)) {
     if ($args['results_current'] < $args['results_max']) {
-      // Determine how many results we can still add
+      // Determine how many results we can still add.
       $limit = min($args['results_per_source'], $args['results_max'] - $args['results_current']);
-      // Create query for node titles
+      // Create query for node titles.
       $q = \Drupal::database()->select('users_field_data', 'u');
       $q->fields('u', ['uid', 'name']);
       $q->condition('u.name', '%' . $q->escapeLike($args['input']) . '%', 'LIKE');
       // And format the results
       foreach ($q->range(0, $limit)->execute() as $record) {
-        $items[] = array(
+        $items[] = [
           'type' => 'User',
           'title' => Html::escape($record->name),
-          'actions' => array(
+          'actions' => [
             'view' => '/user/' . $record->uid,
             'edit' => '/user/' . $record->uid . '/edit',
-          )
-        );
+          ]
+        ];
         // Increment the result counter
         $args['results_current']++;
       }
     }
   }
 
-  // Search for taxonomy terms
+  // Search for taxonomy terms.
   if (in_array('taxonomy', $sources)) {
     if ($args['results_current'] < $args['results_max']) {
-      // Determine how many results we can still add
+      // Determine how many results we can still add.
       $limit = min($args['results_per_source'], $args['results_max'] - $args['results_current']);
-      // Create query for node titles
+      // Create query for node titles.
       $q = \Drupal::database()->select('taxonomy_term_field_data', 't');
       $q->fields('t', ['tid', 'name', 'vid']);
       $q->condition('t.name', '%' . $q->escapeLike($args['input']) . '%', 'LIKE');
-      // And format the results
+      // And format the results.
       foreach ($q->range(0, $limit)->execute() as $record) {
-        $items[] = array(
+        $items[] = [
           'type' => 'Taxonomy (' . Html::escape($record->vid) . ')',
           'title' => Html::escape($record->name),
-          'actions' => array(
+          'actions' => [
             'view' => '/taxonomy/term/' . $record->tid,
             'edit' => '/taxonomy/term/' . $record->tid . '/edit',
-          )
-        );
-        // Increment the result counter
+          ]
+        ];
+        // Increment the result counter.
         $args['results_current']++;
       }
     }
   }
 
-  // Search for menus
+  // Search for menus.
   foreach ($sources as $source) {
     if (substr($source, 0, 5) == 'menu_') {
       $menu_tree = \Drupal::menuTree();
-      // Get menu name
+      // Get menu name.
       $menu_name = substr($source, 5);
-      // Load the tree without any params
+      // Load the tree without any params.
       $tree = $menu_tree->load($menu_name, new \Drupal\Core\Menu\MenuTreeParameters);
-      // Transform the tree
+      // Transform the tree.
       $manipulators = array(
         // Only show links that are accessible for the current user.
         array('callable' => 'menu.default_tree_manipulators:checkAccess'),
-        // Flatten the treen for easier searchability
+        // Flatten the treen for easier searchability.
         array('callable' => 'menu.default_tree_manipulators:flatten'),
       );
       $tree = $menu_tree->transform($tree, $manipulators);
-      // Loop over items
+      // Loop over items.
       foreach ($tree as $item) {
         if (stripos($item->link->getTitle(), $args['input']) !== FALSE) {
-          $items[] = array(
+          $items[] = [
             'type' => 'Menu (' . Html::escape($menu_name) . ')',
             'title' => Html::escape($item->link->getTitle()),
-            'actions' => array(
+            'actions' => [
               'goto' => $item->link->getUrlObject()->toString(),
-            )
-          );
+            ]
+          ];
         }
       }
     }
@@ -175,9 +175,9 @@ function druqs_page_attachments(array &$attachments) {
  */
 function druqs_hook_info() {
   return array(
-    'druqs_search' => array(
+    'druqs_search' => [
       'group' => 'druqs',
-    ),
+    ],
   );
 }
 
@@ -195,14 +195,14 @@ function druqs_toolbar() {
     $items['druqs'] += [
       '#weight' => -999,
       '#type' => 'toolbar_item',
-      'tab' => array(
+      'tab' => [
         '#type' => 'search',
-        '#attributes' => array(
+        '#attributes' => [
           'id' => 'druqs-input',
           'placeholder' => t('Quick search'),
-        ),
+        ],
         '#suffix' => '<div id="druqs-results"></div>',
-      ),
+      ],
       '#wrapper_attributes' => [
         'class' => ['druqs-tab'],
       ],

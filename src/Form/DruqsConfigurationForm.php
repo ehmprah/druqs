@@ -32,10 +32,10 @@ class DruqsConfigurationForm extends ConfigFormBase {
    */
   public function buildForm(array $form, FormStateInterface $form_state) {
 
-    // Get the last / default configuration
+    // Get the last / default configuration.
     $config = $this->config('druqs.configuration');
 
-    // Add field for the search sources
+    // Add field for the search sources.
     $form['search_sources'] = [
       '#type' => 'checkboxes',
       '#title' => $this->t('Search sources'),
@@ -44,7 +44,7 @@ class DruqsConfigurationForm extends ConfigFormBase {
       '#default_value' => $config->get('search_sources'),
     ];
 
-    // Add field for the amount of results per source
+    // Add field for the amount of results per source.
     $form['results_per_source'] = [
       '#type' => 'number',
       '#title' => $this->t('Results per source'),
@@ -55,7 +55,7 @@ class DruqsConfigurationForm extends ConfigFormBase {
       '#max' => 10,
     ];
 
-    // Add field for the total amount of results displayed
+    // Add field for the total amount of results displayed.
     $form['results_max'] = [
       '#type' => 'number',
       '#title' => $this->t('Total results maximum'),
@@ -84,11 +84,11 @@ class DruqsConfigurationForm extends ConfigFormBase {
   }
 
   /**
-   * Return options array with search destinations for the druqs
+   * Return options array with search destinations for the druqs.
    */
   protected function getSearchSources() {
 
-    // Add users, nodes and taxonomies as default options
+    // Add users, nodes and taxonomies as default options.
     $options = [
       'user' => $this->t('Users (by name)'),
       'node' => $this->t('Content (by node title)'),
