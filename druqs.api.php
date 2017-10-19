@@ -18,13 +18,13 @@
  *     'input': the search string
  *     'results_current': the current amount of results
  *     'results_per_source': the maximum amount of results per source
- *     'results_max': the total amount of results
+ *     'results_max': the total amount of results.
  *
- * @return array $results
+ * @return array
  *   An array of arrays with the following keys:
  *     'type': the type of result
  *     'title': the result title
- *     'actions': an array of actions, with link titles as key urls as values
+ *     'actions': an array of actions, with link titles as key urls as values.
  */
 function hook_druqs_search(array &$args) {
 

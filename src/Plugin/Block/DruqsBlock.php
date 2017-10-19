@@ -3,6 +3,7 @@
 namespace Drupal\druqs\Plugin\Block;
 
 use Drupal\Core\Block\BlockBase;
+use Drupal\Core\Session\AccountProxyInterface;
 
 /**
  * Provides the druqs search field as a block.
@@ -16,13 +17,29 @@ use Drupal\Core\Block\BlockBase;
 class DruqsBlock extends BlockBase {
 
   /**
+   * Account proxy.
+   *
+   * @var \Drupal\Core\Session\AccountProxyInterface
+   */
+  protected $accountProxy;
+
+  /**
+   * Constructs an authentication subscriber.
+   *
+   * @param \Drupal\Core\Session\AccountProxyInterface $account_proxy
+   *   Account proxy.
+   */
+  public function __construct(AccountProxyInterface $account_proxy) {
+    $this->accountProxy = $account_proxy;
+  }
+
+  /**
    * {@inheritdoc}
    */
   public function build() {
     $build = [];
 
-    $user = \Drupal::currentUser();
-    if ($user->hasPermission('access druqs')) {
+    if ($this->accountProxy->hasPermission('access druqs')) {
       $build = [
         'tab' => [
           '#type' => 'search',

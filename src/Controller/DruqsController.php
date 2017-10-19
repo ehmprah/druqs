@@ -4,7 +4,9 @@ namespace Drupal\druqs\Controller;
 
 use Drupal\Core\Controller\ControllerBase;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\RequestStack;
+use Symfony\Component\DependencyInjection\ContainerInterface;
+use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Component\Utility\Html;
 use Drupal\Component\Utility\UrlHelper;
 
@@ -14,14 +16,42 @@ use Drupal\Component\Utility\UrlHelper;
 class DruqsController extends ControllerBase {
 
   /**
+   * @var \Drupal\Core\Config\ImmutableConfig
+   */
+  protected $config;
+  
+  /**
+   * @var Symfony\Component\HttpFoundation\RequestStack
+   */
+  private $requestStack;
+
+  /**
+   * Constructor.
+   *
+   * @param Symfony\Component\HttpFoundation\RequestStack $request_stack
+   */
+  public function __construct(ConfigFactoryInterface $config_factory, RequestStack $request_stack) {
+    $this->requestStack = $request_stack;
+    $this->config = $config_factory->get('druqs.configuration');
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public static function create(ContainerInterface $container) {
+    return new static(
+      $container->get('config.factory'),
+      $container->get('request_stack')
+    );
+  }
+
+  /**
    * Callback returning search results as JSON.
    */
   public function search() {
 
-    $q = \Drupal::request()->request->get('query');
-
-    // Get the config.
-    $config = \Drupal::config('druqs.configuration');
+    // Get the search query from POST data.
+    $q = $this->requestStack->getCurrentRequest()->request->get('query');
 
     // Build args for the hook invocation.
     $args = [
@@ -30,9 +60,9 @@ class DruqsController extends ControllerBase {
       // Keep track of how many.
       'results_current' => 0,
       // Add maximum amount of results per invocation.
-      'results_per_source' => $config->get('results_per_source'),
+      'results_per_source' => $this->config->get('results_per_source'),
       // Add maximum amount of results per invocation.
-      'results_max' => $config->get('results_max'),
+      'results_max' => $this->config->get('results_max'),
     ];
 
     // Invoke hook_druqs_search to allow modules to add their results.

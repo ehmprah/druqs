@@ -60,7 +60,7 @@
 
       // On focusing the input again, we show the results we have, so people can
       // get back to the results once they've clicked outside of them
-      $('#druqs-input').click(function (e){
+      $('#druqs-input').click(function (e) {
         if (results) {
           $('#druqs-results').addClass('active');
           e.stopPropagation();
@@ -102,7 +102,7 @@
 
   /**
    * Helper function to decorate the druqs results
-   * @param data
+   * @param json data
    *   A json formatted response from the server
    */
   function decorate(data) {
@@ -128,7 +128,8 @@
         html += '</div>';
         html += '</div>';
       }
-    } else {
+    }
+    else {
       html = '<div class="nope"><span>:-(</span>This search yielded no results.</div>';
     }
     document.querySelector('#druqs-results').innerHTML = html;

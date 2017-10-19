@@ -54,7 +54,7 @@ form#druqs .input-wrap {
   width: 40vw;
   min-width: 300px;
   max-width: 600px;
-  min-height: 100px;
+  min-height: 70px;
   max-height: 80vh;
   z-index: 999;
   overflow-y: auto;
