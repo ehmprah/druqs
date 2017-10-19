@@ -28,7 +28,7 @@ class DruqsBlock extends BlockBase {
           '#type' => 'search',
           '#attributes' => [
             'id' => 'druqs-input',
-            'placeholder' => t('Quick search'),
+            'placeholder' => $this->t('Quick search'),
           ],
           '#suffix' => '<div id="druqs-results"></div>',
         ],

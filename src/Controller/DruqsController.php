@@ -36,8 +36,8 @@ class DruqsController extends ControllerBase {
     ];
 
     // Invoke hook_druqs_search to allow modules to add their results.
-    $output = array();
-    if ($results = $this->moduleHandler()->invokeAll('druqs_search', array(&$args))) {
+    $output = [];
+    if ($results = $this->moduleHandler()->invokeAll('druqs_search', [&$args])) {
       foreach ($results as $result) {
         // Format and escape the actions.
         $actions = [];

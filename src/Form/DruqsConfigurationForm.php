@@ -97,7 +97,7 @@ class DruqsConfigurationForm extends ConfigFormBase {
 
     // Add all available menus as well.
     foreach (Menu::loadMultiple() as $menu_name => $menu) {
-      $options['menu_' . $menu_name] = $this->t('Menu: @name', array('@name' => $menu->label()));
+      $options['menu_' . $menu_name] = $this->t('Menu: @name', ['@name' => $menu->label()]);
     }
 
     return $options;

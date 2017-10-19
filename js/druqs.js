@@ -5,9 +5,8 @@
  * TODO remove jQuery dependency?
  */
 
-'use strict'
-
 (function ($, Drupal) {
+  'use strict';
 
   var scheduled;
   var results;
@@ -25,7 +24,7 @@
       this.processed = true;
 
       // Attach code check handlers
-      $('#druqs-input').keyup(function (){
+      $('#druqs-input').keyup(function () {
 
         // We only continue with actual input
         if (!$('#druqs-input').val().length) {
@@ -48,14 +47,14 @@
 
       // Submitting the form will automatically clear the automatic query
       // schedule and will trigger an immediate query
-      $('#druqs').submit(function (){
+      $('#druqs').submit(function () {
         clearTimeout(scheduled);
         request();
         return false;
       });
 
       // Clicks outside the results hide them
-      $('body').click(function (){
+      $('body').click(function () {
         $('#druqs-results').removeClass('active');
       });
 
@@ -79,11 +78,11 @@
     var search = $('#druqs-input').val();
 
     if (search.length) {
-      // Show results and add throbber
+      // Show results and add throbber.
       var results = document.querySelector('#druqs-results');
       results.innerHTML = '<div class="druqs-throbber"></div>';
       results.classList.add('active');
-      // Send ajax request
+      // Send ajax request.
       var ajax = new XMLHttpRequest();
       ajax.onreadystatechange = function () {
         if (ajax.readyState === XMLHttpRequest.DONE) {
@@ -103,11 +102,15 @@
 
   /**
    * Helper function to decorate the druqs results
+   * @param data
+   *   A json formatted response from the server
    */
   function decorate(data) {
-    var html = '', results = JSON.parse(data);
+    var html = '';
+    var results = JSON.parse(data);
     if (results.length) {
-      var r, action;
+      var r;
+      var action;
       for (r = 0; r < results.length; r++) {
         html += '<div class="druqs-result">';
         html += '<div class="druqs-result-content">';

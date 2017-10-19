@@ -11,6 +11,7 @@ use Drupal\Core\Cache\Cache;
 use Drupal\Core\Url;
 use Drupal\Core\Routing\RouteMatchInterface;
 use Drupal\Component\Utility\Html;
+use Drupal\Core\Menu\MenuTreeParameters;
 
 /**
  * Implements hook_druqs_search().
@@ -103,14 +104,14 @@ function druqs_druqs_search($args) {
       // Get menu name.
       $menu_name = substr($source, 5);
       // Load the tree without any params.
-      $tree = $menu_tree->load($menu_name, new \Drupal\Core\Menu\MenuTreeParameters);
+      $tree = $menu_tree->load($menu_name, new MenuTreeParameters());
       // Transform the tree.
-      $manipulators = array(
+      $manipulators = [
         // Only show links that are accessible for the current user.
-        array('callable' => 'menu.default_tree_manipulators:checkAccess'),
+        ['callable' => 'menu.default_tree_manipulators:checkAccess'],
         // Flatten the treen for easier searchability.
-        array('callable' => 'menu.default_tree_manipulators:flatten'),
-      );
+        ['callable' => 'menu.default_tree_manipulators:flatten'],
+      ];
       $tree = $menu_tree->transform($tree, $manipulators);
       // Loop over items.
       foreach ($tree as $item) {
@@ -120,7 +121,7 @@ function druqs_druqs_search($args) {
             'title' => Html::escape($item->link->getTitle()),
             'actions' => [
               'goto' => $item->link->getUrlObject()->toString(),
-            ]
+            ],
           ];
         }
       }
@@ -143,7 +144,7 @@ function druqs_help($route_name, RouteMatchInterface $route_match) {
       $output .= '<dt>' . t('Search box placement') . '</dt>';
       $output .= '<dd>' . t('By default, the search box is added to the toolbar. Another option is using the block which ships with the module.') . '</dd>';
       $output .= '<dt>' . t('Configuring the module') . '</dt>';
-      $output .= '<dd>' . t('You can select which type of content will be searched on <a href=":admin-druqs">the druqs configuration page</a>.', array(':admin-druqs' => Url::fromRoute('druqs.configuration')->toString())) . '</dd>';
+      $output .= '<dd>' . t('You can select which type of content will be searched on <a href=":admin-druqs">the druqs configuration page</a>.', [':admin-druqs' => Url::fromRoute('druqs.configuration')->toString()]) . '</dd>';
       $output .= '<dt>' . t('Search for anything') . '</dt>';
       $output .= '<dd>' . t('Start typing in the druqs box to search for users, nodes, taxonomies, menus and more!') . '</dd>';
       $output .= '<dt>' . t('Keyboard Shortcut') . '</dt>';

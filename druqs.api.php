@@ -13,14 +13,14 @@
 /**
  * Add search results to a given omnibox search string.
  *
- * @param $args
+ * @param array $args
  *   An associate array with the following keys:
  *     'input': the search string
  *     'results_current': the current amount of results
  *     'results_per_source': the maximum amount of results per source
  *     'results_max': the total amount of results
  *
- * @return results
+ * @return array $results
  *   An array of arrays with the following keys:
  *     'type': the type of result
  *     'title': the result title
@@ -28,7 +28,7 @@
  */
 function hook_druqs_search(array &$args) {
 
-  $results = array();
+  $results = [];
 
   if ($args['results_current'] < $args['results_max']) {
 
