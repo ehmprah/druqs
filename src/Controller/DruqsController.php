@@ -33,7 +33,9 @@ class DruqsController extends ControllerBase {
    * Constructor.
    *
    * @param Drupal\Core\Config\ConfigFactoryInterface $config_factory
+   *   The injected ConfigFactoryInterface.
    * @param Symfony\Component\HttpFoundation\RequestStack $request_stack
+   *   The injected RequestStack.
    */
   public function __construct(ConfigFactoryInterface $config_factory, RequestStack $request_stack) {
     $this->requestStack = $request_stack;
